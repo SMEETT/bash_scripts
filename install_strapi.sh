@@ -1,10 +1,10 @@
 #!/bin/bash
 # VARS
-: ${strapi_project_name:="GVB_strapi"}
-: ${strapi_url:="https://cms.berkenroth.info"}
+: ${strapi_project_name:="my_strapi_project"}
+: ${strapi_url:="https://sub.domain.com"}
 : ${strapi_target_dir:="/var/pm2node/$strapi_project_name"}
 : ${strapi_repo_name:="$strapi_project_name"}
-: ${strapi_add_gh_repo:=true}
+: ${strapi_add_gh_repo:=false}
 
 set -e
 

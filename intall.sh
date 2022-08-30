@@ -2,17 +2,17 @@
 set -e
 
 # config
-export sveltekit_project_name='skit_test'
-export sveltekit_url="https://cms.borisfries.dev"
+export sveltekit_project_name='GVB_sveltekit'
+export sveltekit_url="https://preview.berkenroth.info"
 export sveltekit_target_dir="/var/pm2node/$sveltekit_project_name"
 export sveltekit_repo_name="$sveltekit_project_name"
-export sveltekit_add_gh_repo=false
+export sveltekit_add_gh_repo=true
 
-export strapi_project_name='strapi_test_script_2'
-export strapi_url="https://cms.borisfries.dev"
+export strapi_project_name='GVB_strapi'
+export strapi_url="https://cms.berkenroth.info"
 export strapi_target_dir="/var/pm2node/$strapi_project_name"
 export strapi_repo_name="$strapi_project_name"
-export strapi_add_gh_repo=false
+export strapi_add_gh_repo=true
 
 echo ""
 echo "--------------------"

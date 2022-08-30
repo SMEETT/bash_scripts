@@ -1,8 +1,0 @@
-*
-!*.sh
-!sveltekit_base
-!sveltekit_base/*
-!sveltekit_base/src/*
-!sveltekit_base/src/lib/*
-!sveltekit_base/src/routes/*
-!sveltekit_base/src/routes/about/*

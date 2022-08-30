@@ -1,10 +1,10 @@
 #!/bin/bash
 # VARS
-: ${sveltekit_project_name:='sveltekit_test_1337'}
-: ${sveltekit_url:="https://cms.borisfries.dev"}
+: ${sveltekit_project_name:='my_sveltekit_project'}
+: ${sveltekit_url:="https://sub.domain.com"}
 : ${sveltekit_target_dir:="/var/pm2node/$project_name"}
 : ${sveltekit_repo_name:="$project_name"}
-: ${sveltekit_add_gh_repo:=true}
+: ${sveltekit_add_gh_repo:=false}
 
 set -e
 
