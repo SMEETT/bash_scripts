@@ -1,4 +1,2 @@
-
-.env*
-!.env.project
-!.env.vault
+*
+!*.sh

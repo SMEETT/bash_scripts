@@ -1,8 +1,8 @@
 #!/bin/bash
 # VARS
-: ${strapi_project_name:="strapi_test_script"}
-: ${strapi_url:="https://cms.borisfries.dev"}
-: ${strapi_target_dir:="/var/lib/pm2node/$strapi_project_name"}
+: ${strapi_project_name:="GVB_strapi"}
+: ${strapi_url:="https://cms.berkenroth.info"}
+: ${strapi_target_dir:="/var/pm2node/$strapi_project_name"}
 : ${strapi_repo_name:="$strapi_project_name"}
 : ${strapi_add_gh_repo:=true}
 
@@ -11,12 +11,9 @@ set -e
 yes | npx create-strapi-app@latest $strapi_project_name --quickstart --no-run
 cd $strapi_project_name
 
-# move delevelopment config to its own folder
-mkdir -p ./config/development
-mv ./config/server.js ./config/development/
-
 # add production config
-cat > ./config/server.cjs <<EOF
+mkdir -p ./config/env/production
+cat > ./config/env/production/server.js <<EOF
 module.exports = ({ env }) => ({
   host: env("HOST", "0.0.0.0"),
   port: env.int("PORT", 1337),
@@ -60,8 +57,8 @@ cd $strapi_target_dir
 yes | npx dotenv-vault login
 npx dotenv-vault pull production
 npm install
-npm run build
-pm2 start ecosystem.config.js
+NODE_ENV=production npm run build
+pm2 start ecosystem.config.cjs
 pm2 save
 EOF
 
@@ -101,6 +98,83 @@ jobs:
           KEY: \${{ secrets.SSHKEY }}
           script: sh $strapi_target_dir/deploy_script.sh
 EOF
+
+# add Strapi-Plugins
+
+# install plugins
+# plugin import-export-entries
+npm i strapi-plugin-import-export-entries
+
+rm ./config/plugins.js
+cat > ./config/plugins.js <<EOF
+module.exports = ({ env }) => ({
+  //...
+  "import-export-entries": {
+    enabled: true,
+  },
+  config: {
+    /**
+     * Public hostname of the server.
+     *
+     * If you use the local provider to persist medias,
+     * `serverPublicHostname` should be set to properly export media urls.
+     */
+    serverPublicHostname: "$strapi_url", // default: "".
+  },
+  //...
+});
+EOF
+
+cat > ./src/admin/webpack.config.js <<EOF
+'use strict';
+
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
+module.exports = (config) => {
+  config.plugins.push(new MonacoWebpackPlugin());
+
+  return config;
+};
+EOF
+
+rm ./config/middleware.js
+cat > ./config/middleware.js <<EOF
+module.exports = [
+  "strapi::errors",
+  "strapi::security",
+  "strapi::cors",
+  "strapi::poweredBy",
+  "strapi::logger",
+  "strapi::query",
+  {
+    name: "strapi::body",
+    config: {
+      jsonLimit: "10mb",
+    },
+  },
+  "strapi::session",
+  "strapi::favicon",
+  "strapi::public",
+];
+EOF
+
+# plugin plguin `sync-config`
+npm install strapi-plugin-config-sync --save
+rm ./config/admin.js
+cat > ./.config/admin.js <<EOF
+module.exports = ({ env }) => ({
+  auth: {
+    secret: env("ADMIN_JWT_SECRET"),
+  },
+  apiToken: {
+    salt: env("API_TOKEN_SALT"),
+  },
+  watchIgnoreFiles: ["**/config/sync/**"],
+});
+EOF
+
+
+npm run build
 
 if [ "$strapi_add_gh_repo" = true ] ; then
 git init

@@ -126,10 +126,10 @@ yes | npm i pm2 -g
 # source ~/.nvm/nvm.sh
 
 adduser --disabled-password --gecos "" pm2node
-mkdir -p /var/lib/pm2node/pm2daemon
-chown -R pm2node /var/lib/pm2node
-chmod -R 770 /var/lib/pm2node
-echo "PM2_HOME=/var/lib/pm2node/pm2daemon" >> /etc/environment
+mkdir -p /var/pm2node/pm2daemon
+chown -R pm2node /var/pm2node
+chmod -R 770 /var/pm2node
+echo "PM2_HOME=/var/pm2node/pm2daemon" >> /etc/environment
 
 cat > /etc/systemd/system/pm2-node.service <<EOF
 [Unit]
@@ -144,9 +144,9 @@ LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-Environment=PM2_HOME=/var/lib/pm2node/pm2daemon
-PIDFile=/var/lib/pm2node/pm2daemon/pm2.pid
-ReadWritePaths=/var/lib/pm2node/ /var/lib/pm2node/pm2daemon
+Environment=PM2_HOME=/var/pm2node/pm2daemon
+PIDFile=/var/pm2node/pm2daemon/pm2.pid
+ReadWritePaths=/var/pm2node/ /var/pm2node/pm2daemon
 Restart=on-failure
 ProtectHome=true
 ProtectSystem=strict
@@ -170,4 +170,4 @@ yes ~/.ssh/id_ghactions | ssh-keygen -q -t rsa -b 4096 -C "$gh_email" -N '' >/de
 cat ~/.ssh/id_ghactions.pub >> ~/.ssh/authorized_keys
 mv ~/.ssh /home/pm2node/
 chown -R pm2node /home/pm2node/.ssh 
-cat home/pm2node/.ssh/id_ghactions
+cat /home/pm2node/.ssh/id_ghactions
