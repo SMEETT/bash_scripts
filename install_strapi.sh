@@ -105,7 +105,6 @@ EOF
 # plugin import-export-entries
 npm i strapi-plugin-import-export-entries
 
-rm ./config/plugins.js
 cat > ./config/plugins.js <<EOF
 module.exports = ({ env }) => ({
   //...
@@ -117,7 +116,7 @@ module.exports = ({ env }) => ({
      * Public hostname of the server.
      *
      * If you use the local provider to persist medias,
-     * `serverPublicHostname` should be set to properly export media urls.
+     * "serverPublicHostname" should be set to properly export media urls.
      */
     serverPublicHostname: "$strapi_url", // default: "".
   },
@@ -137,8 +136,8 @@ module.exports = (config) => {
 };
 EOF
 
-rm ./config/middleware.js
-cat > ./config/middleware.js <<EOF
+rm ./config/middlewares.js
+cat > ./config/middlewares.js <<EOF
 module.exports = [
   "strapi::errors",
   "strapi::security",
@@ -161,7 +160,7 @@ EOF
 # plugin plguin `sync-config`
 npm install strapi-plugin-config-sync --save
 rm ./config/admin.js
-cat > ./.config/admin.js <<EOF
+cat > ./config/admin.js <<EOF
 module.exports = ({ env }) => ({
   auth: {
     secret: env("ADMIN_JWT_SECRET"),
@@ -173,6 +172,14 @@ module.exports = ({ env }) => ({
 });
 EOF
 
+# remove unnecessary .env-file
+rm ./.env.example
+
+# create .env.production and append content of .env
+cat > .env.production <<EOF
+# production
+EOF
+cat .env >> .env.production
 
 npm run build
 

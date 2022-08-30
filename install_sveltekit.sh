@@ -83,7 +83,6 @@ jobs:
           script: sh $sveltekit_target_dir/deploy_script.sh
 EOF
 
-
 if [ "$sveltekit_add_gh_repo" = true ] ; then
 git init
 git add .
