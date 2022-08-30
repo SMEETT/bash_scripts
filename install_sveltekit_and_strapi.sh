@@ -61,3 +61,10 @@ echo ""
 echo "Installing Strapi..."
 echo "executing 'install_strapi.sh'"
 ./install_strapi.sh
+
+echo "--------------------------------------------"
+echo "IMPORTANT"
+echo "RUN -->"
+echo "npx dotenv-vault new"
+echo "in /$sveltekit_project_name"
+echo "--------------------------------------------"
