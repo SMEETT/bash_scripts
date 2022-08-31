@@ -62,6 +62,7 @@ rm ./tsconfig.json
 rm ./tailwind.config.cjs
 rm -r ./src
 rm ./install_sveltekit.sh
+rm ./vite_config.js
 cd ..
 cp -r ./sveltekit_base/. ./$sveltekit_project_name
 # add production.env
