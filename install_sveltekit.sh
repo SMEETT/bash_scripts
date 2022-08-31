@@ -32,17 +32,23 @@ module.exports = {
 EOF
 
 # install adapter-node and create correct svelte.config.js
-npm i -D @sveltejs/adapter-node --legacy-peer-deps
+npm i -D @sveltejs/adapter-node
+
+# install Tailwind CSS
+npx svelte-add@latest tailwindcss
+
+# install Tailwind CSS Forms-Plugin
+npm i -D @tailwindcss/forms
 
 #add deploy script
 cat > ./deploy_script.sh <<EOF
 pm2 kill
 cd $sveltekit_target_dir
-# yes | npx dotenv-vault login
-# npx dotenv-vault pull production
+yes | npx dotenv-vault login
+npx dotenv-vault pull production
 npm install --production=false
 npm run build
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.cjs
 pm2 save
 EOF
 

@@ -43,15 +43,19 @@ echo "----------------------------------------------------"
 echo "SvelteKit Project name:" $sveltekit_project_name 
 echo "----------------------------------------------------"
 # this part is a workaround cause there's currently a known-bug in @svelte-add (sadly interactivity is needed for now). This means that the $sveltekit_project_name has to be entered correctly or the script will fail down the line.
-npm create @svelte-add/kit@latest --legacy-peer-deps
+# npm create @svelte-add/kit@latest --legacy-peer-deps
+# (printf "$sveltekit_project_name\n"; cat) | npm create @svelte-add/kit@latest
+
+npm create svelte $sveltekit_project_name
+
 # (printf "$sveltekit_project_name\n"; cat) | npm create @svelte-add/kit@latest
 cp ./install_sveltekit.sh ./$sveltekit_project_name
 cd $sveltekit_project_name
 ./install_sveltekit.sh
 # remove files and dirs we are going to replace
-rm ./vite.config.js
 rm ./svelte.config.js
 rm ./tsconfig.json
+rm ./tailwind.config.cjs
 rm -r ./src
 rm ./install_sveltekit.sh
 cd ..
@@ -66,7 +70,7 @@ EOF
 echo ""
 echo "Installing Strapi..."
 echo "executing 'install_strapi.sh'"
-./install_strapi.sh
+# ./install_strapi.sh
 
 echo "--------------------------------------------"
 echo "IMPORTANT"
