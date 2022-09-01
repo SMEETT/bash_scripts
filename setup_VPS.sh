@@ -10,11 +10,12 @@ echo "ABOUT TO BASH 'EM ALL!!"
 echo "#######################################"
 
 echo "#######################################"
-echo "general updates && HTOP install"
+echo "general updates && HTOP install && Build Essentials"
 echo "#######################################"
 # general updates && HTOP install
 apt update && apt upgrade
 apt install htop
+apt-get install build-essential
 
 echo "#######################################"
 echo "set NODE_ENV"

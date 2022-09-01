@@ -112,6 +112,11 @@ module.exports = ({ env }) => ({
     enabled: true,
   },
   config: {
+    "users-permissions": {
+      config: {
+        jwtSecret: env('JWT_SECRET'),
+      }
+  },
     /**
      * Public hostname of the server.
      *
@@ -175,12 +180,6 @@ EOF
 # remove unnecessary .env-file
 rm ./.env.example
 
-# create .env.production and append content of .env
-cat > .env.production <<EOF
-# production
-EOF
-cat .env >> .env.production
-
 npm run build
 
 if [ "$strapi_add_gh_repo" = true ] ; then
@@ -192,6 +191,12 @@ gh repo create $strapi_repo_name --private
 git remote add origin git@github.com:SMEETT/$strapi_repo_name.git
 git push -u origin main
 fi
+
+# create .env.production and append content of .env
+cat > .env.production <<EOF
+# production
+EOF
+cat .env >> .env.production
 
 npx dotenv-vault new
 exec bash
