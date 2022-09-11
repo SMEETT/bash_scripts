@@ -42,14 +42,18 @@ npm i -D @tailwindcss/forms
 
 #add deploy script
 cat > ./deploy_script.sh <<EOF
-pm2 kill
+# pm2 kill
 cd $sveltekit_target_dir
-yes | npx dotenv-vault login
-npx dotenv-vault pull production
+# yes | npx dotenv-vault login
+# npx dotenv-vault pull production
 npm install --production=false
 npm run build
-pm2 start ecosystem.config.cjs
-pm2 save
+FILE=./.env.production
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+    pm2 start ecosystem.config.cjs
+    pm2 save
+fi
 EOF
 
 # add github action yml

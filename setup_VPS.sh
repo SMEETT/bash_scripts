@@ -151,6 +151,7 @@ ReadWritePaths=/var/pm2node/ /var/pm2node/pm2daemon
 Restart=on-failure
 ProtectHome=true
 ProtectSystem=strict
+PrivateTmp=true
 
 ExecStart=/usr/bin/pm2 resurrect
 ExecReload=/usr/bin/pm2 reload all
