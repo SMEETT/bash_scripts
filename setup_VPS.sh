@@ -76,8 +76,8 @@ Group=caddy
 Type=exec
 WorkingDirectory=/var/caddy
 
-ExecStart=/usr/bin/caddy run -config /etc/caddy/Caddyfile
-ExecReload=/usr/bin/caddy reload -config /etc/caddy/Caddyfile
+ExecStart=/usr/bin/caddy run --config /etc/caddy/Caddyfile
+ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile
 ExecStop=/usr/bin/caddy stop
 
 LimitNOFILE=1048576
