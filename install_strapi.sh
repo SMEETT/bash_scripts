@@ -1,7 +1,7 @@
 #!/bin/bash
 # VARS
-: ${strapi_project_name:="my_strapi_project"}
-: ${strapi_url:="https://sub.domain.com"}
+: ${strapi_project_name:="eli-strapi"}
+: ${strapi_url:="https://eli-strapi.blaubot.com"}
 : ${strapi_target_dir:="/var/pm2node/$strapi_project_name"}
 : ${strapi_repo_name:="$strapi_project_name"}
 : ${strapi_add_gh_repo:=false}
@@ -83,12 +83,11 @@ jobs:
       # scp repository to specified directory on VPS starting at root of repo (".")
       - name: Copy repository contents via scp
         uses: appleboy/scp-action@master
-        env:
+        with:
           HOST: \${{ secrets.HOST }}
           USERNAME: \${{ secrets.USERNAME }}
           PORT: \${{ secrets.PORT }}
           KEY: \${{ secrets.SSHKEY }}
-        with:
           source: "."
           target: "$strapi_target_dir"
 
@@ -202,5 +201,5 @@ cat > .env.production <<EOF
 EOF
 cat .env >> .env.production
 
-npx dotenv-vault new
-exec bash
+# npx dotenv-vault new
+# exec bash
