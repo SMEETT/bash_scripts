@@ -1,7 +1,7 @@
 #!/bin/bash
 # VARS
 caddy_email="tbr@tutamail.com"
-caddy_subdomain='https://test.definite-yoga.koeln'
+caddy_subdomain='https://gh.gehtbeidir.de'
 gh_email="tbr@tutamail.com"
 
 set -e
