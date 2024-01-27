@@ -1,13 +1,20 @@
 #!/bin/bash
 
-# Find the Chromium window by title and refresh it
-WINDOW_TITLE='website - Chromium'
+# Get the title of the currently focused window
+CURRENT_WINDOW_TITLE=$(xdotool getactivewindow getwindowname)
 
-# Use xdotool to find the window ID based on the title
-WINDOW_ID=$(xdotool search --onlyvisible --name "$WINDOW_TITLE")
+# Find THE! Chromium window by title and refresh it
+CHROMIUM_WINDOW_TITLE='website - Chromium'
+CHROMIUM_WINDOW_ID=$(xdotool search --onlyvisible --name "$CHROMIUM_WINDOW_TITLE")
 
-# Check if a window with the specified title is found
-if [ -n "$WINDOW_ID" ]; then
-    # Activate the window and send the F5 key
-    xdotool windowactivate --sync "$WINDOW_ID" key Ctrl+F5
+# Check if a Chromium window with the specified title is found
+if [ -n "$CHROMIUM_WINDOW_ID" ]; then
+    # Switch to the Chromium window
+    xdotool windowactivate --sync "$CHROMIUM_WINDOW_ID"
+    
+    # Send the F5 key to refresh the Chromium window
+    xdotool key Ctrl+F5
+
+    # Switch back to the original window
+    xdotool windowactivate --sync "$(xdotool search --onlyvisible --name "$CURRENT_WINDOW_TITLE")"
 fi
